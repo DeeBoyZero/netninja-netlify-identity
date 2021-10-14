@@ -17,17 +17,34 @@ export const AuthContextProvider = ({ children }) => {
       netlifyIdentity.close();
       console.log("login event");
     });
+
+    netlifyIdentity.on("logout", () => {
+      setUser(null);
+      console.log("logout event");
+    });
+
     // init netlify identity
     netlifyIdentity.init();
+
+    // cleanup function that un-register event listeners
+    return () => {
+      netlifyIdentity.off("login");
+      netlifyIdentity.off("logout");
+    };
   }, []);
 
   const login = () => {
     netlifyIdentity.open();
   };
 
+  const logout = () => {
+    netlifyIdentity.logout();
+  };
+
   const context = {
     user,
     login,
+    logout,
   };
 
   return (
