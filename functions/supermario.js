@@ -8,7 +8,6 @@ exports.handler = async () => {
   };
 
   //return response to browser
-
   return {
     statusCode: 200,
     body: JSON.stringify(data),
